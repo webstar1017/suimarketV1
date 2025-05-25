@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/* For light mode */
+:root[data-mantine-color-scheme="light"] {
+    --mantine-color-body: "white" !important;
+}
+
+/* For dark mode */
+:root[data-mantine-color-scheme="dark"] {
+    --mantine-color-body: #262833 !important;
+}
+
+.react-multiple-carousel__arrow--right {
+    z-index: 1 !important;
+}
+
+.react-multiple-carousel__arrow--left {
+    z-index: 1 !important;
+}
+.mantine-Modal-body {
+    padding: 0px;
+}
