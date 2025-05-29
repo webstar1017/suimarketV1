@@ -1,5 +1,19 @@
 @import "tailwindcss";
 
+@font-face {
+    font-family: 'Inter';
+    src: url('/fonts/Inter-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter-bold';
+    src: url('/fonts/Inter-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+
 /* For light mode */
 :root[data-mantine-color-scheme="light"] {
     --mantine-color-body: "white" !important;
@@ -7,7 +21,7 @@
 
 /* For dark mode */
 :root[data-mantine-color-scheme="dark"] {
-    --mantine-color-body: #262833 !important;
+    --mantine-color-body: #080c16 !important;
 }
 
 .react-multiple-carousel__arrow--right {
@@ -17,6 +31,33 @@
 .react-multiple-carousel__arrow--left {
     z-index: 1 !important;
 }
+
 .mantine-Modal-body {
     padding: 0px;
+}
+
+body,
+span,
+table,
+div,
+text,
+td,
+tr,
+tspan,
+input,
+button,
+p,
+text,
+label {
+    font-family: "Inter" !important;
+    /* color: white; */
+}
+
+.bold-text {
+    font-family: "Inter-bold" !important;
+}
+
+.mantine-Menu-item:hover {
+    color: #3b82f6 !important;
+    background-color: #102A56;
 }

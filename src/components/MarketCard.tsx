@@ -1,8 +1,10 @@
 import MarketData from "@/types/MarketData";
-import { Box, Card, Flex, Grid, Text, UnstyledButton, useMantineColorScheme } from "@mantine/core";
-import Image from "next/image";
+import { Box, Button, Flex, Grid, Text } from "@mantine/core";
+import { IconChevronsDown, IconChevronsUp } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { FC } from "react";
+import { FC, useState } from "react";
+import { PieChart, Pie, Cell } from "recharts";
+
 
 interface Props {
     data: MarketData
@@ -11,64 +13,117 @@ interface Props {
 const MarketCard: FC<Props> = ({
     data
 }) => {
-
-    const { colorScheme } = useMantineColorScheme();
+    
+    // const { colorScheme } = useMantineColorScheme();
     const router = useRouter();
+    const [hoverBg, setHoverBg] = useState<boolean>(false);
 
-    return <Card withBorder bg={colorScheme === "dark" ? "rgba(70, 78, 91, 0.5)" : "white"} shadow="sm"  radius={20}>
-        <Flex direction="column" gap="20px">
-            <Flex gap={15} align="center">
-                <Image src="/img/btc.png" alt="" width={40} height={40}/>
-                <Text size="18px" fw={500}>{data.title}</Text>
+    return <Box className={`border border-[#1F242F] rounded-[25px] ${hoverBg ? "bg-[#242f4c] transition-colors duration-300 rounded" : "bg-gradient-to-r from-[#080c16] via-[#0d1323] to-[#080c16]"} w-full cursor-pointer`}
+        onMouseEnter={() => setHoverBg(true)}
+        onMouseLeave={() => setHoverBg(false)}
+        onClick={() => router.push(`/markets/${data.id}`)}
+    >
+        <div className="bg-gradient-to-r from-[#080c16] via-[#284f8a] to-[#080c16] m-auto h-[1px]">
+        </div>
+        <Flex p={16} gap={16} direction="column" className="w-full border-bottom border-[#1F242F]">
+            <Flex justify="space-between" w="100%">
+                <Flex gap={8}>
+                    <img src="/img/btc.png" alt="" className="w-[32px] h-[32px]" />
+                    <Text style={{ color: "#CECFD2", lineHeight: "20px" }} size="14px" className="bold-text leading-[20px]">
+                        Which company has best AI model and of May?
+                    </Text>
+                </Flex>
+                <Box>
+                    <PieChart width={70} height={70}>
+                        <Pie
+                            data={[
+                                { name: "Group D", value: 30 },
+                                { name: "Group E", value: 100 }
+                            ]}
+                            innerRadius={20}
+                            outerRadius={25}
+                            startAngle={0}
+                            endAngle={180}
+                            paddingAngle={0}
+                            dataKey="value"
+                        >
+                            <Cell key={`cell-2`} fill={"#333741"} stroke="none" strokeWidth={1} />
+                            <Cell key={`cell-1`} fill={"#47CD89"} stroke="none" strokeWidth={1} />
+                        </Pie>
+                        <text
+                            x="50%"
+                            y="40%"
+                            textAnchor="middle"
+                            dominantBaseline="middle"
+                            style={{ fontSize: '8px', fill: 'white' }}
+                        >
+                            Chance
+                        </text>
+                        <text
+                            x="50%"
+                            y="60%"
+                            textAnchor="middle"
+                            dominantBaseline="middle"
+                            style={{ fontSize: '12px', fill: 'white' }}
+                        >
+                            80%
+                        </text>
+                    </PieChart>
+                </Box>
             </Flex>
             <Grid>
-                <Grid.Col span={6}
-                >
-                    <Box p={20}
-                        bg={colorScheme === "dark" ? "rgba(86, 101, 126, 0.5)" : "rgba(86, 101, 126, 0.2"}
-                        style={{borderRadius: '10px'}}
-                    >
-                        <Text size="20px" className="text-center" fw={600}>YES</Text>
-                        <Text size="30px" className="text-center" fw={600} color="rgba(126, 157, 243, 1)" mt={10}>48%</Text>
-                    </Box>
+                <Grid.Col span={6}>
+                    <Button color="#074D3133" w="100%">
+                        <Flex
+                            gap={6}
+                            align="center"
+                            justify="center"
+                            onClick={() => router.push(`/markets/${data.id}`)}
+                        >
+                            <Text size="15px" style={{ color: "#47CD89" }} className="bold-text"
+                            >Buy Yes</Text>
+                            <IconChevronsUp color="#47CD89" />
+                        </Flex>
+                    </Button>
                 </Grid.Col>
-                <Grid.Col span={6}
-                >
-                    <Box
-                        p={20}
-                        bg={colorScheme === "dark" ? "rgba(86, 101, 126, 0.5)" : "rgba(86, 101, 126, 0.2)"}
-                        style={{borderRadius: '10px'}}
-                    >
-                        <Text size="20px" className="text-center" fw={600}>No</Text>
-                        <Text size="30px" className="text-center" fw={600} color="rgba(243, 123, 141, 1)" mt={10}>52%</Text>
-                    </Box>
+                <Grid.Col span={6}>
+                    <Button color="#D92D2033" w="100%">
+                        <Flex
+                            gap={6}
+                            align="center"
+                            justify="center"
+                            onClick={() => router.push(`/markets/${data.id}`)}
+                        >
+                            <Text size="15px" style={{ color: "#F97066" }} className="bold-text">Buy No</Text>
+                            <IconChevronsDown color="#F97066" />
+                        </Flex>
+                    </Button>
                 </Grid.Col>
             </Grid>
+        </Flex>
+        <Flex p={16} justify="space-between"
+            className="border-t border-[#1F242F]"
+        >
             <Flex
-                justify="space-between"
+                gap={5}
                 align="center"
             >
-                <Flex gap="10px" 
-                    align="center"
-                >
-                    <Image src="/img/chartbar_icon.svg" alt="" width={20} height={20}/>
-                    <Text color="rgba(171, 171, 171, 1)">$8.2M</Text>
-                </Flex>
-                <Flex gap="10px" 
-                    align="center"
-                >
-                    <UnstyledButton>
-                        <Image src="/img/vote_icon.svg" alt="" width={20} height={20}/>
-                    </UnstyledButton>
-                    <UnstyledButton
-                        onClick={() => router.push(`/markets/${data.id}`)}
-                    >
-                        <Image src="/img/view_icon.svg" alt="" width={20} height={20}/>
-                    </UnstyledButton>
-                </Flex>
+                <img src="img/chartbar_icon.svg" style={{ width: "12px" }} />
+                <Text size="12px" style={{ color: "#CECFD2" }}>
+                    $44M
+                </Text>
+            </Flex>
+            <Flex
+                gap={8}
+                align="center"
+            >
+                <img src="img/vote_icon.svg" style={{ width: "14px" }} className="cursor-pointer" />
+                <img src="img/view_icon.svg" style={{ width: "14px" }} className="cursor-pointer"
+                    onClick={() => router.push(`/markets/${data.id}`)}
+                />
             </Flex>
         </Flex>
-    </Card>
+    </Box>
 }
 
 export default MarketCard;

@@ -1,14 +1,13 @@
-import HomeContext from "@/state/index.context";
-import { HEADER_PAGES } from "@/utils/consistant";
-import { UnstyledButton, Container, Flex, Image, useMantineColorScheme, Text, Burger, Box, Modal, Menu, Switch } from "@mantine/core";
-import { IconMenu2, IconMoon, IconSun } from "@tabler/icons-react";
+import { CATEGORIES, HEADER_PAGES } from "@/utils/consistant";
+import { UnstyledButton, Container, Flex, Image, useMantineColorScheme, Text, Burger, Box, Modal, Menu } from "@mantine/core";
 import Link from "next/link";
-import { FC, useContext, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import WalletConnect from "../WalletConnect";
 import useIsMobile from "@/hooks/useIsMobile";
 import { useDisclosure } from "@mantine/hooks";
 import Login from "../auth/Login";
 import SignUp from "../auth/SignUp";
+import { usePathname } from "next/navigation";
 
 interface Props {
     openNavbar: boolean
@@ -21,24 +20,19 @@ const MyHeader: FC<Props> = ({
 }) => {
     const [opened, { open, close }] = useDisclosure(false);
     const [authType, setAuthType] = useState("login");
-    const {
-        state: { selectedPage }
-    } = useContext(HomeContext);
-    const { colorScheme, setColorScheme } = useMantineColorScheme();
+    const [selectedPage, setSelectedPage] = useState<string>("");
+    const { colorScheme } = useMantineColorScheme();
+    const pathname = usePathname();
     const isMobile = useIsMobile();
-    const mainLinks = HEADER_PAGES.map((item, index) => (
-        <Link href={`/${item.page}`} key={`header-${index}`}>
-            {
-                item.page === selectedPage ?
-                    <Text color="rgba(38, 133, 241, 1)" size="18px" fw={500}>{item.name}</Text> :
-                    <Text size="18px" fw={500} className="hover:text-[rgba(38, 133, 241, 1)]">{item.name}</Text>
-            }
-        </Link>
-    ));
-
+    // const router = useRouter();
+    useEffect(() => {
+        console.log(pathname);
+        setSelectedPage(pathname);
+    }, [pathname])
+    
     return <header>
         <Box
-            style={{ height: "75px", background: `${colorScheme === "dark" ? '#181B20' : "white"}`, boxShadow: '0 4px 4px 0 rgba(38, 133, 241, 0.2), 0 6px 20px 0 rgba(38, 133, 241, 0.19)' }}
+            style={{ height: "75px", borderBottom: '1px solid #1F242F', background: `${colorScheme === "dark" ? '#0c111d' : "white"}` }}
             w='100%'
         >
             <Container size={1440} h="100%">
@@ -60,11 +54,24 @@ const MyHeader: FC<Props> = ({
                             size="sm"
                         />
                         <Link href="/">
-                            <Image src="/img/logo.svg" style={{ width: 160 }} alt=""/>
+                            <Image src="/img/logo.svg" style={{ width: 160 }} alt="" />
                         </Link>
-                        <Flex gap="20px" align='center'>
+                        <Flex
+                            gap="20px"
+                            align='center'
+                            justify="center"
+                            h={64}
+                        >
                             {
-                                !isMobile && mainLinks
+                                !isMobile && HEADER_PAGES.map((item, index) => (
+                                    <Link href={`/${item.page}`} key={`header-${index}`}>
+                                        {
+                                            selectedPage.indexOf(item.page) > -1 ?
+                                                <Text size="16px" style={{ color: "rgba(38, 133, 241, 1)" }} className="bold-text">{item.name}</Text> :
+                                                <Text size="16px" fw={500} style={{ color: "#CECFD2d" }}>{item.name}</Text>
+                                        }
+                                    </Link>
+                                ))
                             }
                         </Flex>
                     </Flex>
@@ -80,7 +87,7 @@ const MyHeader: FC<Props> = ({
                             <Menu.Target>
                                 <UnstyledButton
                                 >
-                                    <IconMenu2 />
+                                    {/* <IconMenu2 /> */}
                                 </UnstyledButton>
                             </Menu.Target>
                             <Menu.Dropdown>
@@ -101,7 +108,7 @@ const MyHeader: FC<Props> = ({
                                     Sign Up
                                 </Menu.Item>
                                 <Menu.Divider />
-                                <Menu.Item >
+                                {/* <Menu.Item >
                                     <Flex justify="space-between" align="center">
                                         Dark Mode
                                         <Switch
@@ -118,14 +125,43 @@ const MyHeader: FC<Props> = ({
                                             }
                                         />
                                     </Flex>
-                                </Menu.Item>
+                                </Menu.Item> */}
                             </Menu.Dropdown>
                         </Menu>
                     </Flex>
                 </Flex>
             </Container>
         </Box>
-        <Modal opened={opened} onClose={close}  centered withCloseButton={false}>
+        {
+            selectedPage != "/" &&
+            <Box
+                style={{ borderBottom: '1px solid #2E90FA' }}
+                className="h-[64px] bg-[#0c111d]"
+            >
+                <Container size={1440} h="100%">
+                    <Flex
+                        gap="28px"
+                        align='center'
+                        justify="center"
+                        h={64}
+                    >
+                        {
+                            CATEGORIES.map((item, index) => (
+                                <Link href={`/${item.page}`} key={`header-${index}`}>
+                                    {
+                                        selectedPage.indexOf(item.page) > -1 ?
+                                            <Text style={{ color: "rgba(38, 133, 241, 1)" }} size="16px" className="bold-text">{item.name}</Text> :
+                                            <Text size="16px" fw={500} style={{ color: "#CECFD2d" }} className="hover:text-[rgba(38, 133, 241, 1)]">{item.name}</Text>
+                                    }
+                                </Link>
+                            ))
+                        }
+                    </Flex>
+                </Container>
+            </Box>
+        }
+
+        <Modal opened={opened} onClose={close} centered withCloseButton={false}>
             {
                 authType === "login" ? <Login /> : <SignUp />
             }

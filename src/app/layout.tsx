@@ -7,9 +7,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Layout from "@/components/layouts/Index";
-import "./globals.css";
 import '@mysten/dapp-kit/dist/index.css';
 import '@mantine/core/styles.css';
+import "./globals.css";
+
 
 import { APP_DESCRIPTION, APP_TITLE } from "@/utils/consistant";
 
@@ -37,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased text-white`}
       >
         <Layout>
           {children}

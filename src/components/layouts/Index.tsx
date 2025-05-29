@@ -9,7 +9,7 @@
 import { useCreateReducer } from "@/hooks/useCreateReducer";
 import HomeContext from "@/state/index.context";
 import { HomeInitialState, initialState } from "@/state/index.state";
-import { AppShell, createTheme, MantineProvider } from "@mantine/core";
+import { AppShell, MantineProvider } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { FC, ReactNode, useEffect, useState } from "react";
 import { Notifications } from '@mantine/notifications';
@@ -30,7 +30,7 @@ const Layout: FC<Props> = ({ children }) => {
     const [isClient, setIsClient] = useState(false);
     const isMobile = useIsMobile();
     const [opened, { toggle }] = useDisclosure();
-    
+
     useEffect(() => {
         setIsClient(true)
     }, [])
@@ -42,13 +42,10 @@ const Layout: FC<Props> = ({ children }) => {
     const contextValue = useCreateReducer<HomeInitialState>({
         initialState,
     });
-    const theme = createTheme({
-        colors: {
-        },
-        components: {
-
-        },
-    });
+    // const theme = createTheme({
+    //     colors: {
+    //     },
+    // });
 
     return (
         isClient &&
@@ -60,11 +57,50 @@ const Layout: FC<Props> = ({ children }) => {
             <Providers>
                 <MantineProvider
                     defaultColorScheme="dark"
-                    theme={theme}
+                    theme={{
+                        colors: {
+                        },
+                        components: {
+                            Text: {
+                                styles: () => ({
+                                    root: {
+                                        color: "white"
+                                    }
+                                })
+                            },
+                            NumberInput: {
+                                styles: () => ({
+                                    input: {
+                                        backgroundColor: "transparent",
+                                        borderColor: '#333741'
+                                    }
+                                })
+                            },
+                            Radio: {
+                                styles: () => ({
+                                    // radio: {
+                                    //     backgroundColor: "transparent"
+                                    // },
+                                })
+                            },
+                            Menu: {
+                                styles: () => ({
+                                    dropdown: {
+                                        backgroundColor: "#0c111d"
+                                    },
+                                    item: {
+                                        padding: '10px 8px',
+                                        fontSize: '16px',
+                                        color: "white"
+                                    }
+                                })
+                            }
+                        }
+                    }}
                 >
                     <Notifications />
                     <AppShell
-                        header={{ height: 72 }}
+                        header={{ height: 129 }}
                         footer={{ height: 60 }}
                         navbar={{
                             width: 0,
@@ -76,7 +112,7 @@ const Layout: FC<Props> = ({ children }) => {
                     >
                         <AppShell.Header
                         >
-                            <MyHeader 
+                            <MyHeader
                                 openNavbar={opened}
                                 toogleNavbar={toggle}
                             />

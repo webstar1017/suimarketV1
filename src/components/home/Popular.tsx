@@ -6,11 +6,13 @@ import MarketData from "@/types/MarketData";
 import MarketCard from "../MarketCard";
 // import useIsMobile from "@/hooks/useIsMobile";
 import CardSkeleton from "../skeletons/CardSkeleton";
+import { useEffect, useState } from "react";
 
 export default function Popular() {
 
     const { colorScheme } = useMantineColorScheme();
     const { markets, isLoading } = useMarkets();
+    const [filteredMarkets, setFilteredMarkets] = useState<MarketData[]>([]);
     const topMarkets = markets
         ? markets
             .sort((a, b) => {
@@ -21,7 +23,49 @@ export default function Popular() {
             })
             .slice(0, 3)
         : [];
-
+    useEffect(() => {
+        const filters = [];
+        for(let k = 0; k < 9; k++) 
+            filters.push(
+                {
+                    category: "crypto",
+                    creator
+                        :
+                        "0x5b43b6e6b5c9e6ca90e6b5960c6909360d1cb98a0c0d46db54825194870ddc78",
+                    description
+                        :
+                        "dfadf",
+                    endDate
+                        :
+                        "5/31/2025",
+                    id
+                        :
+                        "0xf6667f840a4ef5c2086065a624177ca5a629f3aa7983dfb1921516251dc2a45a",
+                    liquidity
+                        :
+                        "$0.00",
+                    noPrice
+                        :
+                        "0.50",
+                    outcome
+                        :
+                        "NO",
+                    resolved
+                        :
+                        false,
+                    title
+                        :
+                        "Test 1",
+                    volume
+                        :
+                        "$0.00",
+                    yesPrice
+                        :
+                        "0.50",
+                }
+            );
+        setFilteredMarkets(filters);
+    }, [])
     return <Box>
         <Flex
             justify='space-between'
@@ -62,8 +106,8 @@ export default function Popular() {
                         <Text className="text-center">No markets available yet. Be the first to create one!</Text> :
                         <Grid>
                             {
-                                topMarkets.map((item: MarketData, index: number) =>
-                                    <Grid.Col span={{ base: 12, md: 3, lg: 3 }} key={`marketcard-${index}`}>
+                                filteredMarkets.map((item: MarketData, index: number) =>
+                                    <Grid.Col span={{ base: 12, md: 4, lg: 4 }} key={`marketcard-${index}`}>
                                         <MarketCard
                                             data={item}
                                         />

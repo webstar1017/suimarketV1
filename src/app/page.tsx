@@ -56,9 +56,9 @@ function Home() {
             onClick={() => {
               router.push("/markets");
             }}
-            gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+            gradient={{ from: '#1570EF', to: 'cyan', deg: 90 }}
           >Explore Markets</Button>
-          <Button
+          {/* <Button
             color="blue"
             variant="outline"
             size="lg"
@@ -67,7 +67,7 @@ function Home() {
             }}
           >
             Create a Market
-          </Button>
+          </Button> */}
         </Flex>
       </Box>
       <Popular />

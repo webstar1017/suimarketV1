@@ -2,22 +2,26 @@
 
 import { Box, Container, Flex } from "@mantine/core";
 import { FC, ReactNode } from "react";
+import MyFooter from "./Footer";
 
 interface Props {
     children: ReactNode,
 }
 
 const Main: FC<Props> = ({ children }) => {
-    return <Container size={1440}>
-        <Flex
-            justify='center'
-            direction={'column'}
-        >
-            <Box>
-                {children}
-            </Box>
-        </Flex>
-    </Container>
+    return <Box>
+        <Container size={1440}>
+            <Flex
+                justify='center'
+                direction={'column'}
+            >
+                <Box mb={40}>
+                    {children}
+                </Box>
+            </Flex>
+        </Container>
+        <MyFooter />
+    </Box>
 }
 
 export default Main;

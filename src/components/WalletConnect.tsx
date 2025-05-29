@@ -23,7 +23,7 @@ export default function WalletConnect() {
     cursor: 'pointer',
     padding: '8px 16px',
     border: 'none',
-    borderRadius: '20px',
+    borderRadius: '5px',
     transition: 'background 0.3s',
     fontWeight: 'bold',
   };
