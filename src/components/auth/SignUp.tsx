@@ -1,5 +1,5 @@
 
-import { Button, Divider, Flex, Input, Text, useMantineColorScheme } from "@mantine/core";
+import { Button, Divider, Flex, Text, TextInput, useMantineColorScheme } from "@mantine/core";
 import { IconBrandGoogleFilled } from "@tabler/icons-react";
 // import { FC } from "react";
 
@@ -28,8 +28,8 @@ const SignUp = () => {
         <Divider my="xs" label="OR" labelPosition="center" />
         <form>
             <Flex align="center" justify="center">
-                <Input placeholder="Enter Email" size="md"/>
-                <Button color="dark" size="md">Continue</Button>
+                <TextInput placeholder="Enter Email" size="md"/>
+                <Button color="rgba(38, 133, 241, 1)" size="md">Continue</Button>
             </Flex>
         </form>
     </Flex>

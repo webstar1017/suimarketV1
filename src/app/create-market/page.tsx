@@ -6,7 +6,7 @@ import { useForm } from "@mantine/form";
 import { DateInput } from '@mantine/dates';
 import { TransactionBlock } from "@mysten/sui.js/transactions";
 import dayjs from 'dayjs';
-import { CATEGORIES, CONTRACT_CONFIG } from "@/utils/consistant";
+import { CATEGORIES, CONTRACT_CONFIG, MARKET_CATEGORIES } from "@/utils/consistant";
 import { useState } from "react";
 import { useSuiWallet } from "@/hooks/useSuiWallet";
 import { notifications } from "@mantine/notifications";
@@ -40,47 +40,47 @@ function CreateMarket() {
         }
         try {
             setIsLoading(true);
-      
+
             const txb = new TransactionBlock();
-            const endTimestamp = new Date(values.end_date); 
+            const endTimestamp = new Date(values.end_date).getTime();
             const liquidityAmount = Math.floor(values.initial_liquidity * 1_000_000_000);
-      
+
             if (liquidityAmount > 1_000_000_000_000) {
-              throw new Error("Initial liquidity amount is too high");
+                throw new Error("Initial liquidity amount is too high");
             }
             const coin = txb.splitCoins(txb.gas, [txb.pure(liquidityAmount)]);
             console.log("Transaction parameters:", {
-              packageId: CONTRACT_CONFIG.PACKAGE_ID,
-              module: CONTRACT_CONFIG.MARKET_MODULE,
-              function: CONTRACT_CONFIG.MARKET_CREATE_FUNCTION,
-              question: values.question,
-              description: values.description,
-              category: values.category,
-              endTimestamp,
-              liquidityAmount,
+                packageId: CONTRACT_CONFIG.PACKAGE_ID,
+                module: CONTRACT_CONFIG.MARKET_MODULE,
+                function: CONTRACT_CONFIG.MARKET_CREATE_FUNCTION,
+                question: values.question,
+                description: values.description,
+                category: values.category,
+                endTimestamp,
+                liquidityAmount,
             });
             txb.moveCall({
-              target: `${CONTRACT_CONFIG.PACKAGE_ID}::${CONTRACT_CONFIG.MARKET_MODULE}::${CONTRACT_CONFIG.MARKET_CREATE_FUNCTION}`,
-              arguments: [
-                txb.pure(values.question),
-                txb.pure(values.description),
-                txb.pure(values.category),
-                txb.pure(endTimestamp),
-                coin,
-                txb.object("0x6")
-              ],
+                target: `${CONTRACT_CONFIG.PACKAGE_ID}::${CONTRACT_CONFIG.MARKET_MODULE}::${CONTRACT_CONFIG.MARKET_CREATE_FUNCTION}`,
+                arguments: [
+                    txb.pure(values.question),
+                    txb.pure(values.description),
+                    txb.pure(values.category),
+                    txb.pure(endTimestamp),
+                    coin,
+                    txb.object("0x6")
+                ],
             });
             txb.setGasBudget(50000000);
             const result = await executeTransaction(txb);
             console.log("Full transaction result:", result);
-          } catch (error) {
+        } catch (error) {
             console.error("Market creation failed:", error);
             if (error instanceof Error) {
-              console.error("Error details:", {
-                message: error.message,
-                stack: error.stack,
-                name: error.name
-              });
+                console.error("Error details:", {
+                    message: error.message,
+                    stack: error.stack,
+                    name: error.name
+                });
             }
             notifications.show({
                 title: 'Error',
@@ -88,9 +88,9 @@ function CreateMarket() {
                 color: "yellow",
                 classNames: classes,
             });
-          } finally {
+        } finally {
             setIsLoading(false);
-          }
+        }
     }
 
     return <Box pt={30} style={{ width: isMobile ? "100%" : "750px", margin: "auto" }}>
@@ -125,26 +125,46 @@ function CreateMarket() {
                     key={form.key('end_date')}
                     {...form.getInputProps('end_date')}
                 />
-                <Select
-                    label="Category"
-                    data={
-                        categories.map((item) => {
-                            return item.page
-                        })
-                    }
-                    searchable
-                    key={form.key('category')}
-                    {...form.getInputProps('category')}
-                />
+
+                <Box
+                >
+                    <Text size="14px" style={{ color: "" }}>
+                        Categories
+                    </Text>
+                    <Flex
+                        mt={10}
+                    >
+                        {/* <Select
+                            data={
+                                .map((item) => {
+                                    return item.page
+                                })
+                            }
+                            searchable
+                            key={form.key('category')}
+                            {...form.getInputProps('category')}
+                        /> */}
+                        <Select
+                            data={
+                                MARKET_CATEGORIES[0].childrens.map((item) => {
+                                    return item.key
+                                })
+                            }
+                            searchable
+                            key={form.key('category')}
+                            {...form.getInputProps('category')}
+                        />
+                    </Flex>
+                </Box>
                 <NumberInput
                     label="Initial Liquidity (SUI)"
                     placeholder="0.00"
-                    prefix="SUI"
+                    prefix="SUI "
                     mb="md"
                     key={form.key('initial_liquidity')}
                     {...form.getInputProps('initial_liquidity')}
                 />
-                <Button color="blue" size="md" type="submit" loading={isLoading} disabled={isLoading}>
+                <Button color="rgba(38, 133, 241, 1)" size="md" type="submit" loading={isLoading} disabled={isLoading}>
                     Create Market
                 </Button>
             </Flex>

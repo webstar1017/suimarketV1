@@ -56,7 +56,7 @@ const Layout: FC<Props> = ({ children }) => {
         >
             <Providers>
                 <MantineProvider
-                    defaultColorScheme="dark"
+                    forceColorScheme="dark"
                     theme={{
                         colors: {
                         },
@@ -65,10 +65,49 @@ const Layout: FC<Props> = ({ children }) => {
                                 styles: () => ({
                                     root: {
                                         color: "white"
+                                    },
+                                    input: {
+                                        backgroundColor: "transparent",
+                                        borderColor: '#333741'
                                     }
                                 })
                             },
                             NumberInput: {
+                                styles: () => ({
+                                    input: {
+                                        backgroundColor: "transparent",
+                                        borderColor: '#333741'
+                                    }
+                                })
+                            },
+                            Select: {
+                                styles: () => ({
+                                    input: {
+                                        backgroundColor: "transparent",
+                                        borderColor: '#333741'
+                                    },
+                                    dropdown: {
+                                        backgroundColor: "#0c111d"
+                                    },
+                                })
+                            },
+                            Textarea: {
+                                styles: () => ({
+                                    input: {
+                                        backgroundColor: "transparent",
+                                        borderColor: '#333741'
+                                    }
+                                })
+                            },
+                            DateInput: {
+                                styles: () => ({
+                                    input: {
+                                        backgroundColor: "transparent",
+                                        borderColor: '#333741'
+                                    }
+                                })
+                            },
+                            TextInput: {
                                 styles: () => ({
                                     input: {
                                         backgroundColor: "transparent",
@@ -101,7 +140,7 @@ const Layout: FC<Props> = ({ children }) => {
                     <Notifications />
                     <AppShell
                         header={{ height: 129 }}
-                        footer={{ height: 60 }}
+                        // footer={{ height: 60 }}
                         navbar={{
                             width: 0,
                             breakpoint: 'sm',

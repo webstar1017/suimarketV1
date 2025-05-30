@@ -6,19 +6,34 @@ import CardSkeleton from "@/components/skeletons/CardSkeleton";
 import { useMarkets } from "@/hooks/useMarketData copy";
 import HomeContext from "@/state/index.context";
 import MarketData from "@/types/MarketData";
+// import { MARKET_CATEGORIES } from "@/utils/consistant";
 import { Box, Grid, Text } from "@mantine/core";
+import { useParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import 'react-multi-carousel/lib/styles.css';
 
 function Markets() {
     const { markets, isLoading } = useMarkets();
     const [filteredMarkets, setFilteredMarkets] = useState<MarketData[]>([]);
-
+    const params = useParams();
+    const categoryId = params.categoryId as string;
     const {
-        state: { selectedCategory }
+        state: { selectedCategory, selectedSubCategory },
+        dispatch: homeDispatch
     } = useContext(HomeContext);
 
     useEffect(() => {
+        homeDispatch({
+            "field": "selectedCategory",
+            "value": categoryId
+        });
+        if (selectedSubCategory !== "all") {
+            homeDispatch({
+                "field": "selectedSubCategory",
+                "value": selectedSubCategory
+            });
+        }
+        
         if (markets) {
             // const filters = [];
             // for(let k = 0; k < 30; k++) 
@@ -61,17 +76,18 @@ function Markets() {
             //         }
             //     );
             // setFilteredMarkets(filters);
-            if (selectedCategory == "all") {
+            
+            if (selectedSubCategory == "all") {
                 setFilteredMarkets(markets);
             } else {
                 setFilteredMarkets(
                     markets.filter((market) =>
-                        market.category.toLowerCase() === selectedCategory.toLowerCase()
+                        market.category.toLowerCase() === selectedSubCategory.toLowerCase()
                     )
                 );
             }
         }
-    }, [selectedCategory, markets])
+    }, [selectedCategory, markets, selectedSubCategory])
 
     return <Box mt={50}>
         <Text

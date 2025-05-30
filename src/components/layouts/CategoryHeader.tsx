@@ -34,7 +34,8 @@ function CategoryHeader() {
     const [openedFilter, setOpenedFilter] = useState<boolean>(false);
 
     const {
-        state: { selectedCategory },
+        state: { selectedCategory, selectedSubCategory },
+        dispatch: homeDispatch
     } = useContext(HomeContext);
     // const responsive = {
     //     superLargeDesktop: {
@@ -96,7 +97,6 @@ function CategoryHeader() {
                 </Flex>
             </Menu.Target>
             <Menu.Dropdown
-
             >
                 {
                     FILTER_OPTIONS.map((item, index) =>
@@ -146,14 +146,19 @@ function CategoryHeader() {
         </Carousel> */}
 
         {
-            MARKET_CATEGORIES.map((item, index: number) =>
+            MARKET_CATEGORIES.filter(item => item.key === selectedCategory)[0].childrens.map((item, index: number) =>
                 <UnstyledButton
-
+                    onClick={() => {
+                        homeDispatch({
+                            field: "selectedSubCategory",
+                            value: item.key
+                        })
+                    }}
                     key={`header-category-${index}`}
                 >
                     {
-                        selectedCategory == item.key ?
-                            <Text color="rgba(38, 133, 241, 1)" fw={500} size="14px">{item.name}</Text> :
+                        selectedSubCategory === item.key ?
+                            <Text style={{color: "rgba(38, 133, 241, 1)"}} fw={500} size="14px">{item.name}</Text> :
                             <Text fw={500} size="14px" style={{ color: "#CECFD2" }}>{item.name}</Text>
                     }
                 </UnstyledButton>

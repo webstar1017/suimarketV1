@@ -1,13 +1,15 @@
-import { CATEGORIES, HEADER_PAGES } from "@/utils/consistant";
+import {  MARKET_CATEGORIES } from "@/utils/consistant";
 import { UnstyledButton, Container, Flex, Image, useMantineColorScheme, Text, Burger, Box, Modal, Menu } from "@mantine/core";
 import Link from "next/link";
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useState } from "react";
 import WalletConnect from "../WalletConnect";
 import useIsMobile from "@/hooks/useIsMobile";
 import { useDisclosure } from "@mantine/hooks";
 import Login from "../auth/Login";
 import SignUp from "../auth/SignUp";
-import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { IconUser } from "@tabler/icons-react";
+import HomeContext from "@/state/index.context";
 
 interface Props {
     openNavbar: boolean
@@ -20,16 +22,14 @@ const MyHeader: FC<Props> = ({
 }) => {
     const [opened, { open, close }] = useDisclosure(false);
     const [authType, setAuthType] = useState("login");
-    const [selectedPage, setSelectedPage] = useState<string>("");
     const { colorScheme } = useMantineColorScheme();
-    const pathname = usePathname();
     const isMobile = useIsMobile();
-    // const router = useRouter();
-    useEffect(() => {
-        console.log(pathname);
-        setSelectedPage(pathname);
-    }, [pathname])
-    
+    const router = useRouter();
+    const {
+        state: { selectedCategory },
+        dispatch: homeDispatch,
+    } = useContext(HomeContext);
+
     return <header>
         <Box
             style={{ height: "75px", borderBottom: '1px solid #1F242F', background: `${colorScheme === "dark" ? '#0c111d' : "white"}` }}
@@ -62,7 +62,7 @@ const MyHeader: FC<Props> = ({
                             justify="center"
                             h={64}
                         >
-                            {
+                            {/* {
                                 !isMobile && HEADER_PAGES.map((item, index) => (
                                     <Link href={`/${item.page}`} key={`header-${index}`}>
                                         {
@@ -72,7 +72,7 @@ const MyHeader: FC<Props> = ({
                                         }
                                     </Link>
                                 ))
-                            }
+                            } */}
                         </Flex>
                     </Flex>
                     <Flex
@@ -87,7 +87,7 @@ const MyHeader: FC<Props> = ({
                             <Menu.Target>
                                 <UnstyledButton
                                 >
-                                    {/* <IconMenu2 /> */}
+                                    <IconUser />
                                 </UnstyledButton>
                             </Menu.Target>
                             <Menu.Dropdown>
@@ -107,7 +107,17 @@ const MyHeader: FC<Props> = ({
                                 >
                                     Sign Up
                                 </Menu.Item>
-                                <Menu.Divider />
+                                <Menu.Item
+                                    onClick={() => { router.push("/create-market") }}
+                                >
+                                    Create a market
+                                </Menu.Item>
+                                <Menu.Item
+                                    onClick={() => { router.push("/profile") }}
+                                >
+                                    Profile
+                                </Menu.Item>
+                                {/* <Menu.Divider /> */}
                                 {/* <Menu.Item >
                                     <Flex justify="space-between" align="center">
                                         Dark Mode
@@ -133,7 +143,6 @@ const MyHeader: FC<Props> = ({
             </Container>
         </Box>
         {
-            selectedPage != "/" &&
             <Box
                 style={{ borderBottom: '1px solid #2E90FA' }}
                 className="h-[64px] bg-[#0c111d]"
@@ -146,14 +155,24 @@ const MyHeader: FC<Props> = ({
                         h={64}
                     >
                         {
-                            CATEGORIES.map((item, index) => (
-                                <Link href={`/${item.page}`} key={`header-${index}`}>
+                            MARKET_CATEGORIES.map((item, index) => (
+                                <UnstyledButton key={`header-${index}`}
+                                    onClick={() => {
+                                        homeDispatch({
+                                            "field": "selectedCategory",
+                                            "value": item.key
+                                        });
+                                        router.push(`/markets/${item.key}`)
+                                    }}
+                                >
                                     {
-                                        selectedPage.indexOf(item.page) > -1 ?
-                                            <Text style={{ color: "rgba(38, 133, 241, 1)" }} size="16px" className="bold-text">{item.name}</Text> :
-                                            <Text size="16px" fw={500} style={{ color: "#CECFD2d" }} className="hover:text-[rgba(38, 133, 241, 1)]">{item.name}</Text>
+                                        selectedCategory === item.key ?
+                                            // <Text style={{ color: "rgba(38, 133, 241, 1)" }} size="16px" className="bold-text">{item.name}</Text> :
+                                            // <Text size="16px" fw={500} style={{ color: "#CECFD2d" }} className="hover:text-[rgba(38, 133, 241, 1)]">{item.name}</Text>
+                                            <Text style={{color: "rgba(38, 133, 241, 1)"}} fw={500} size="16px">{item.name}</Text> :
+                                            <Text fw={500} size="16px" style={{ color: "#CECFD2" }}>{item.name}</Text>
                                     }
-                                </Link>
+                                </UnstyledButton>
                             ))
                         }
                     </Flex>

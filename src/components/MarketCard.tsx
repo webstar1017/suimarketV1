@@ -13,32 +13,33 @@ interface Props {
 const MarketCard: FC<Props> = ({
     data
 }) => {
-    
+    console.log(data);
     // const { colorScheme } = useMantineColorScheme();
     const router = useRouter();
     const [hoverBg, setHoverBg] = useState<boolean>(false);
 
     return <Box className={`border border-[#1F242F] rounded-[25px] ${hoverBg ? "bg-[#242f4c] transition-colors duration-300 rounded" : "bg-gradient-to-r from-[#080c16] via-[#0d1323] to-[#080c16]"} w-full cursor-pointer`}
-        onMouseEnter={() => setHoverBg(true)}
-        onMouseLeave={() => setHoverBg(false)}
-        onClick={() => router.push(`/markets/${data.id}`)}
     >
         <div className="bg-gradient-to-r from-[#080c16] via-[#284f8a] to-[#080c16] m-auto h-[1px]">
         </div>
         <Flex p={16} gap={16} direction="column" className="w-full border-bottom border-[#1F242F]">
-            <Flex justify="space-between" w="100%">
+            <Flex justify="space-between" w="100%"
+                onMouseEnter={() => setHoverBg(true)}
+                onMouseLeave={() => setHoverBg(false)}
+                onClick={() => router.push(`/detail/${data.id}`)}
+            >
                 <Flex gap={8}>
                     <img src="/img/btc.png" alt="" className="w-[32px] h-[32px]" />
                     <Text style={{ color: "#CECFD2", lineHeight: "20px" }} size="14px" className="bold-text leading-[20px]">
-                        Which company has best AI model and of May?
+                        {data.title}
                     </Text>
                 </Flex>
                 <Box>
                     <PieChart width={70} height={70}>
                         <Pie
                             data={[
-                                { name: "Group D", value: 30 },
-                                { name: "Group E", value: 100 }
+                                { name: "Group D", value: (Number(data.yesPrice) + Number(data.noPrice)) / Number(data.yesPrice) * 100},
+                                { name: "Group E", value: (Number(data.yesPrice) + Number(data.noPrice)) / Number(data.noPrice) * 100 }
                             ]}
                             innerRadius={20}
                             outerRadius={25}
@@ -66,19 +67,22 @@ const MarketCard: FC<Props> = ({
                             dominantBaseline="middle"
                             style={{ fontSize: '12px', fill: 'white' }}
                         >
-                            80%
+                            {(Number(data.yesPrice) + Number(data.noPrice)) * Number(data.yesPrice) * 100}%
                         </text>
                     </PieChart>
                 </Box>
             </Flex>
             <Grid>
                 <Grid.Col span={6}>
-                    <Button color="#074D3133" w="100%">
+                    <Button color="#074D3133" w="100%"
+                        onClick={() => router.push(`/detail/${data.id}`)}
+                        className="hover:bg-[rgba(7, 77, 49, 0.8)]"
+                    >
                         <Flex
                             gap={6}
                             align="center"
                             justify="center"
-                            onClick={() => router.push(`/markets/${data.id}`)}
+                            onClick={() => router.push(`/detail/${data.id}`)}
                         >
                             <Text size="15px" style={{ color: "#47CD89" }} className="bold-text"
                             >Buy Yes</Text>
@@ -92,7 +96,7 @@ const MarketCard: FC<Props> = ({
                             gap={6}
                             align="center"
                             justify="center"
-                            onClick={() => router.push(`/markets/${data.id}`)}
+                            onClick={() => router.push(`/detail/${data.id}`)}
                         >
                             <Text size="15px" style={{ color: "#F97066" }} className="bold-text">Buy No</Text>
                             <IconChevronsDown color="#F97066" />
@@ -103,23 +107,26 @@ const MarketCard: FC<Props> = ({
         </Flex>
         <Flex p={16} justify="space-between"
             className="border-t border-[#1F242F]"
+            onMouseEnter={() => setHoverBg(true)}
+            onMouseLeave={() => setHoverBg(false)}
+            onClick={() => router.push(`/detail/${data.id}`)}
         >
             <Flex
                 gap={5}
                 align="center"
             >
-                <img src="img/chartbar_icon.svg" style={{ width: "12px" }} />
+                <img src="/img/chartbar_icon.svg" style={{ width: "12px" }} />
                 <Text size="12px" style={{ color: "#CECFD2" }}>
-                    $44M
+                    {data.volume}
                 </Text>
             </Flex>
             <Flex
                 gap={8}
                 align="center"
             >
-                <img src="img/vote_icon.svg" style={{ width: "14px" }} className="cursor-pointer" />
-                <img src="img/view_icon.svg" style={{ width: "14px" }} className="cursor-pointer"
-                    onClick={() => router.push(`/markets/${data.id}`)}
+                <img src="/img/vote_icon.svg" style={{ width: "14px" }} className="cursor-pointer" />
+                <img src="/img/view_icon.svg" style={{ width: "14px" }} className="cursor-pointer"
+                    onClick={() => router.push(`/detail/${data.id}`)}
                 />
             </Flex>
         </Flex>

@@ -4,9 +4,12 @@ import CategoryCard from "@/components/CategoryCard";
 import Popular from "@/components/home/Popular";
 // import CategoryHeader from "@/components/layouts/CategoryHeader";
 import useIsMobile from "@/hooks/useIsMobile";
-import { Box, Button, Flex, Text, useMantineColorScheme } from "@mantine/core";
+import HomeContext from "@/state/index.context";
+import { MARKET_CATEGORIES } from "@/utils/consistant";
+import { Box, Button, Flex, Loader, Text, useMantineColorScheme } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
 import 'react-multi-carousel/lib/styles.css';
 
@@ -14,6 +17,7 @@ function Home() {
 
   const { colorScheme } = useMantineColorScheme();
   const isMobile = useIsMobile();
+  const [isSkip] = useState(true);
 
   const responsiveCarousel = {
     superLargeDesktop: {
@@ -35,8 +39,24 @@ function Home() {
   };
 
   const router = useRouter();
+  const {
+    state: {  },
+    dispatch: homeDispatch,
+  } = useContext(HomeContext);
 
-  return <Box>
+  useEffect(() => {
+    homeDispatch({
+      "field": "selectedCategory",
+      "value": MARKET_CATEGORIES[0].key
+    })
+    homeDispatch({
+      "field": "selectedSubCategory",
+      "value": "all"
+    })
+    router.push(`/markets/${MARKET_CATEGORIES[0].key}`);
+  }, [])
+
+  return isSkip ? <Flex justify="center"><Loader /></Flex> : <Box>
     <Flex
       direction='column'
       gap={80}
