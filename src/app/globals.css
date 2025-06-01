@@ -61,3 +61,11 @@ label {
     color: #3b82f6 !important;
     background-color: #102A56;
 }
+
+.market-card-item:hover {
+    transform: translateY(-5px);
+}
+
+.mantine-Popover-dropdown {
+    background-color: #0c111d;
+}

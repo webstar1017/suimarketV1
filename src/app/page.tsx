@@ -56,7 +56,7 @@ function Home() {
     router.push(`/markets/${MARKET_CATEGORIES[0].key}`);
   }, [])
 
-  return isSkip ? <Flex justify="center"><Loader /></Flex> : <Box>
+  return isSkip ? <Flex justify="center" mt={40} mb={30}><Loader /></Flex> : <Box>
     <Flex
       direction='column'
       gap={80}

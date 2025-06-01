@@ -309,27 +309,6 @@ function Resolved() {
                     </Table.Tbody>
                 </Table>
             </Table.ScrollContainer>
-
-        </Box>
-        <Box
-            className="border-2 border-dashed border-[#1F242F] rounded-[15px] bg-gradient-to-r from-[#080c16] via-[#0d1323] to-[#080c16] w-full"
-        >
-            <div className="bg-gradient-to-r from-[#080c16] via-[#284f8a] to-[#080c16] m-auto h-[1px]">
-            </div>
-            <Box p={16}>
-                <Text size="24px">Rules</Text>
-                <Flex gap={8} direction="column" mt={20}>
-                    <Text style={{ color: "#94969C", lineHeight: '20px' }} size="14px">
-                        {`This market will resolve to “Yes” if the Indiana Pacers win the 2024-2025 NBA Championship. Otherwise, this market will resolve to “No”.`}
-                    </Text>
-                    <Text style={{ color: "#94969C", lineHeight: '20px' }} className="leading-[22px]" size="14px">
-                        {`This market will resolve to “No” if it becomes impossible for this team to become 2024-25 NBA Champion based off the rules of the NBA.`}
-                    </Text>
-                    <Text style={{ color: "#94969C", lineHeight: '20px' }} className="leading-[22px]" size="14px">
-                        {`The resolution source for this market will be information from the NBA.`}
-                    </Text>
-                </Flex>
-            </Box>
         </Box>
     </Box>
 }

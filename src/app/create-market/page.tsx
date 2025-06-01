@@ -6,7 +6,7 @@ import { useForm } from "@mantine/form";
 import { DateInput } from '@mantine/dates';
 import { TransactionBlock } from "@mysten/sui.js/transactions";
 import dayjs from 'dayjs';
-import { CATEGORIES, CONTRACT_CONFIG, MARKET_CATEGORIES } from "@/utils/consistant";
+import { CONTRACT_CONFIG, MARKET_CATEGORIES } from "@/utils/consistant";
 import { useState } from "react";
 import { useSuiWallet } from "@/hooks/useSuiWallet";
 import { notifications } from "@mantine/notifications";
@@ -14,12 +14,12 @@ import classes from './Demo.module.css';
 
 function CreateMarket() {
     const isMobile = useIsMobile();
-    const categories = CATEGORIES.filter((item) => item.page !== "all");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { connected, executeTransaction } = useSuiWallet();
+    const [subCategories, setSubCategories] = useState<{key: string, name: string}[]>(MARKET_CATEGORIES[0].childrens);
     const form = useForm({
         mode: 'uncontrolled',
-        initialValues: { question: '', description: '', category: categories[1].page, initial_liquidity: 0, end_date: dayjs().format('YYYY-MM-DD') },
+        initialValues: { question: '', description: '', category: subCategories[0].key, initial_liquidity: 0, end_date: dayjs().format('YYYY-MM-DD') },
         validate: {
             question: (value: string) => (value.length < 10 ? 'Question must have at least 10 letters' : null),
             description: (value: string) => (value.length < 10 ? 'Description must have at least 10 letters' : null),
@@ -133,21 +133,26 @@ function CreateMarket() {
                     </Text>
                     <Flex
                         mt={10}
+                        gap={10}
                     >
-                        {/* <Select
+                        <Select
                             data={
-                                .map((item) => {
-                                    return item.page
+                                MARKET_CATEGORIES.map((item) => {
+                                    return { value: item.key, label: item.name}
                                 })
                             }
                             searchable
-                            key={form.key('category')}
-                            {...form.getInputProps('category')}
-                        /> */}
+                            defaultValue={MARKET_CATEGORIES[0].key}
+                            onChange={(_value) => {
+                                setSubCategories(
+                                    MARKET_CATEGORIES.filter((item) => item.key === _value)[0].childrens
+                                )
+                            }}
+                        />
                         <Select
                             data={
-                                MARKET_CATEGORIES[0].childrens.map((item) => {
-                                    return item.key
+                                subCategories.map((item) => {
+                                    return { value: item.key, label: item.name}
                                 })
                             }
                             searchable

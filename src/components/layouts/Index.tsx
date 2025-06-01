@@ -104,7 +104,7 @@ const Layout: FC<Props> = ({ children }) => {
                                     input: {
                                         backgroundColor: "transparent",
                                         borderColor: '#333741'
-                                    }
+                                    },
                                 })
                             },
                             TextInput: {

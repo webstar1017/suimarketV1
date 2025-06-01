@@ -13,12 +13,12 @@ interface Props {
 const MarketCard: FC<Props> = ({
     data
 }) => {
-    console.log(data);
-    // const { colorScheme } = useMantineColorScheme();
     const router = useRouter();
     const [hoverBg, setHoverBg] = useState<boolean>(false);
+    const [yesButtonerHover, setYesButtonHover] = useState<boolean>(false);
+    const [noButtonerHover, setNoButtonHover] = useState<boolean>(false);
 
-    return <Box className={`border border-[#1F242F] rounded-[25px] ${hoverBg ? "bg-[#242f4c] transition-colors duration-300 rounded" : "bg-gradient-to-r from-[#080c16] via-[#0d1323] to-[#080c16]"} w-full cursor-pointer`}
+    return <Box className={`market-card-item border border-[#1F242F] rounded-[25px] mb-[5px] transition-transform duration-300 ease-in-out ${hoverBg ? "bg-[#242f4c] transition-colors duration-300 rounded" : "bg-gradient-to-r from-[#080c16] via-[#0d1323] to-[#080c16]"} w-full cursor-pointer`}
     >
         <div className="bg-gradient-to-r from-[#080c16] via-[#284f8a] to-[#080c16] m-auto h-[1px]">
         </div>
@@ -74,9 +74,12 @@ const MarketCard: FC<Props> = ({
             </Flex>
             <Grid>
                 <Grid.Col span={6}>
-                    <Button color="#074D3133" w="100%"
+                    <Button
+                        w="100%"
+                        color={ yesButtonerHover ? "rgba(7, 77, 49, 0.8)" : "rgba(7, 77, 49, 0.3)" }
                         onClick={() => router.push(`/detail/${data.id}`)}
-                        className="hover:bg-[rgba(7, 77, 49, 0.8)]"
+                        onMouseEnter={() => setYesButtonHover(true)}
+                        onMouseLeave={() => setYesButtonHover(false)}
                     >
                         <Flex
                             gap={6}
@@ -91,7 +94,12 @@ const MarketCard: FC<Props> = ({
                     </Button>
                 </Grid.Col>
                 <Grid.Col span={6}>
-                    <Button color="#D92D2033" w="100%">
+                    <Button 
+                        color={ noButtonerHover ? "rgba(217, 45, 32, 0.8)" : "rgba(217, 45, 32, 0.2)" }
+                        w="100%"
+                        onMouseEnter={() => setNoButtonHover(true)}
+                        onMouseLeave={() => setNoButtonHover(false)}
+                    >
                         <Flex
                             gap={6}
                             align="center"

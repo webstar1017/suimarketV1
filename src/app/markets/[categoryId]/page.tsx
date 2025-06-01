@@ -35,48 +35,6 @@ function Markets() {
         }
         
         if (markets) {
-            // const filters = [];
-            // for(let k = 0; k < 30; k++) 
-            //     filters.push(
-            //         {
-            //             category: "crypto",
-            //             creator
-            //                 :
-            //                 "0x5b43b6e6b5c9e6ca90e6b5960c6909360d1cb98a0c0d46db54825194870ddc78",
-            //             description
-            //                 :
-            //                 "dfadf",
-            //             endDate
-            //                 :
-            //                 "5/31/2025",
-            //             id
-            //                 :
-            //                 "0xf6667f840a4ef5c2086065a624177ca5a629f3aa7983dfb1921516251dc2a45a",
-            //             liquidity
-            //                 :
-            //                 "$0.00",
-            //             noPrice
-            //                 :
-            //                 "0.50",
-            //             outcome
-            //                 :
-            //                 "NO",
-            //             resolved
-            //                 :
-            //                 false,
-            //             title
-            //                 :
-            //                 "Test 1",
-            //             volume
-            //                 :
-            //                 "$0.00",
-            //             yesPrice
-            //                 :
-            //                 "0.50",
-            //         }
-            //     );
-            // setFilteredMarkets(filters);
-            
             if (selectedSubCategory == "all") {
                 setFilteredMarkets(markets);
             } else {

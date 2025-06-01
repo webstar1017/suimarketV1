@@ -14,6 +14,7 @@ import { IconClock, IconTrophy } from "@tabler/icons-react";
 import Graph from "@/components/markets/Graph";
 import Resolved from "@/components/markets/Resoved";
 import Trade from "@/components/markets/Trade";
+import Comments from "@/components/markets/Comments";
 
 function Details() {
     // const TRADES = [
@@ -28,7 +29,7 @@ function Details() {
     // const [isResolving, setIsResolving] = useState(false);
     // const [position, setPosition] = useState<boolean>(false);
     // const [suiValue, setSuiValue] = useState<number | string>('');
-    
+
     // const [selectedTrade, setSelectedTrade] = useState<string>(TRADES[0].key);
 
     return <Box mt={30}>
@@ -60,6 +61,27 @@ function Details() {
                             <Flex direction="column" gap="32px">
                                 <Graph />
                                 <Resolved />
+                                <Box
+                                    className="border-2 border-dashed border-[#1F242F] rounded-[15px] bg-gradient-to-r from-[#080c16] via-[#0d1323] to-[#080c16] w-full"
+                                >
+                                    <div className="bg-gradient-to-r from-[#080c16] via-[#284f8a] to-[#080c16] m-auto h-[1px]">
+                                    </div>
+                                    <Box p={16}>
+                                        <Text size="24px">Rules</Text>
+                                        <Flex gap={8} direction="column" mt={20}>
+                                            <Text style={{ color: "#94969C", lineHeight: '20px' }} size="14px">
+                                                {`This market will resolve to “Yes” if the Indiana Pacers win the 2024-2025 NBA Championship. Otherwise, this market will resolve to “No”.`}
+                                            </Text>
+                                            <Text style={{ color: "#94969C", lineHeight: '20px' }} className="leading-[22px]" size="14px">
+                                                {`This market will resolve to “No” if it becomes impossible for this team to become 2024-25 NBA Champion based off the rules of the NBA.`}
+                                            </Text>
+                                            <Text style={{ color: "#94969C", lineHeight: '20px' }} className="leading-[22px]" size="14px">
+                                                {`The resolution source for this market will be information from the NBA.`}
+                                            </Text>
+                                        </Flex>
+                                    </Box>
+                                </Box>
+                                <Comments />
                             </Flex>
                         </Grid.Col>
                         <Grid.Col span={{ sm: 12, md: 4 }}>
