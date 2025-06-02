@@ -1,6 +1,6 @@
 import HomeContext from "@/state/index.context";
-import {MARKET_CATEGORIES } from "@/utils/consistant";
-import { Flex, Group, Menu, Text, UnstyledButton } from "@mantine/core";
+import { MARKET_CATEGORIES } from "@/utils/consistant";
+import { Button, Flex, Group, Menu, Text } from "@mantine/core";
 import { IconChevronDown, IconChevronUp, IconDroplet, IconFilter, IconHourglass, IconLighter, IconStar, IconTrendingUp } from "@tabler/icons-react";
 import { useContext, useState } from "react";
 import "react-multi-carousel/lib/styles.css";
@@ -144,26 +144,29 @@ function CategoryHeader() {
             <div>Item 3</div>
             <div>Item 4</div>
         </Carousel> */}
+        <Group gap={5}>
+            {
+                MARKET_CATEGORIES.filter(item => item.key === selectedCategory)[0].childrens.map((item, index: number) =>
+                    <Button
+                        variant={selectedSubCategory === item.key ? "light" : "transparent"}
+                        onClick={() => {
+                            homeDispatch({
+                                field: "selectedSubCategory",
+                                value: item.key
+                            })
+                        }}
+                        key={`header-category-${index}`}
+                        pl={6} pr={6}
+                    >
+                        <Text style={{ color: "white" }} size="14px">
+                            {item.name}
+                        </Text>
+                    </Button>
 
-        {
-            MARKET_CATEGORIES.filter(item => item.key === selectedCategory)[0].childrens.map((item, index: number) =>
-                <UnstyledButton
-                    onClick={() => {
-                        homeDispatch({
-                            field: "selectedSubCategory",
-                            value: item.key
-                        })
-                    }}
-                    key={`header-category-${index}`}
-                >
-                    {
-                        selectedSubCategory === item.key ?
-                            <Text style={{color: "rgba(38, 133, 241, 1)"}} fw={500} size="14px">{item.name}</Text> :
-                            <Text fw={500} size="14px" style={{ color: "#CECFD2" }}>{item.name}</Text>
-                    }
-                </UnstyledButton>
-            )
-        }
+                )
+            }
+        </Group>
+
     </Group>
 }
 

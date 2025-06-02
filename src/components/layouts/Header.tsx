@@ -1,4 +1,4 @@
-import {  MARKET_CATEGORIES } from "@/utils/consistant";
+import { MARKET_CATEGORIES } from "@/utils/consistant";
 import { UnstyledButton, Container, Flex, Image, useMantineColorScheme, Text, Burger, Box, Modal, Menu } from "@mantine/core";
 import Link from "next/link";
 import { FC, useContext, useState } from "react";
@@ -8,8 +8,9 @@ import { useDisclosure } from "@mantine/hooks";
 import Login from "../auth/Login";
 import SignUp from "../auth/SignUp";
 import { useRouter } from "next/navigation";
-import { IconUser } from "@tabler/icons-react";
+import { IconChevronDown, IconChevronUp, IconUser } from "@tabler/icons-react";
 import HomeContext from "@/state/index.context";
+import SearchInput from "../SearchInput";
 
 interface Props {
     openNavbar: boolean
@@ -25,6 +26,7 @@ const MyHeader: FC<Props> = ({
     const { colorScheme } = useMantineColorScheme();
     const isMobile = useIsMobile();
     const router = useRouter();
+    const [openedUserMenu, setOpenedUserMenu] = useState(false);
     const {
         state: { selectedCategory },
         dispatch: homeDispatch,
@@ -41,7 +43,6 @@ const MyHeader: FC<Props> = ({
                     h={'100%'}
                     w={'100%'}
                     align='center'
-
                 >
                     <Flex
                         align='center'
@@ -75,6 +76,7 @@ const MyHeader: FC<Props> = ({
                             } */}
                         </Flex>
                     </Flex>
+                    <SearchInput />
                     <Flex
                         gap={20}
                         align='center'
@@ -82,12 +84,16 @@ const MyHeader: FC<Props> = ({
                         {
                             !isMobile && <WalletConnect />
                         }
-                        <Menu shadow="md" width={200} closeOnItemClick={false} trigger="click-hover" position="bottom-end"
+                        <Menu opened={openedUserMenu} onChange={setOpenedUserMenu} shadow="md" width={200} closeOnItemClick={true} trigger="click-hover" position="bottom-end"
                         >
                             <Menu.Target>
                                 <UnstyledButton
                                 >
-                                    <IconUser />
+                                    <Flex align="center" gap={5}>
+                                        <Box w={35} h={35} className="rounded-[100%]" bg={"orange"}>
+                                        </Box>
+                                        {openedUserMenu ? <IconChevronUp /> : <IconChevronDown />}
+                                    </Flex>
                                 </UnstyledButton>
                             </Menu.Target>
                             <Menu.Dropdown>
@@ -106,6 +112,11 @@ const MyHeader: FC<Props> = ({
                                     }}
                                 >
                                     Sign Up
+                                </Menu.Item>
+                                <Menu.Item
+                                    onClick={() => { router.push("/settings") }}
+                                >
+                                    Settings
                                 </Menu.Item>
                                 <Menu.Item
                                     onClick={() => { router.push("/create-market") }}
@@ -169,7 +180,7 @@ const MyHeader: FC<Props> = ({
                                         selectedCategory === item.key ?
                                             // <Text style={{ color: "rgba(38, 133, 241, 1)" }} size="16px" className="bold-text">{item.name}</Text> :
                                             // <Text size="16px" fw={500} style={{ color: "#CECFD2d" }} className="hover:text-[rgba(38, 133, 241, 1)]">{item.name}</Text>
-                                            <Text style={{color: "rgba(38, 133, 241, 1)"}} fw={500} size="16px">{item.name}</Text> :
+                                            <Text style={{ color: "rgba(38, 133, 241, 1)" }} fw={500} size="16px">{item.name}</Text> :
                                             <Text fw={500} size="16px" style={{ color: "#CECFD2" }}>{item.name}</Text>
                                     }
                                 </UnstyledButton>

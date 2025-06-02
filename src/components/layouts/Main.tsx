@@ -10,7 +10,7 @@ interface Props {
 
 const Main: FC<Props> = ({ children }) => {
     return <Box mih={500}>
-        <Container size={1440}>
+        <Container size={1440} mih={500}>
             <Flex
                 justify='center'
                 direction={'column'}
