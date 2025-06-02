@@ -8,7 +8,7 @@ import { useDisclosure } from "@mantine/hooks";
 import Login from "../auth/Login";
 import SignUp from "../auth/SignUp";
 import { useRouter } from "next/navigation";
-import { IconChevronDown, IconChevronUp, IconUser } from "@tabler/icons-react";
+import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
 import HomeContext from "@/state/index.context";
 import SearchInput from "../SearchInput";
 
