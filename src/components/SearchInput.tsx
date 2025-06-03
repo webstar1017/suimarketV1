@@ -29,7 +29,7 @@ function SearchInput() {
                     }}
                 />
             </Menu.Target>
-            <Menu.Dropdown mb={-10}>
+            <Menu.Dropdown mt={-10}>
                 <Box p={15}>
                     {
                         searchText === "" ? <InitialSearcResult /> : <SearchedList data={[]}/>

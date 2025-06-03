@@ -18,12 +18,12 @@ const Main: FC<Props> = ({ children }) => {
     }, [params])
 
     return <Box>
-        <Container size={path.indexOf("rewards") > -1 ? "100%" : 1440} mt={path.indexOf("rewards") > -1 ? '0px' : '50px'} mb={50}>
+        <Container size={path.indexOf("rewards") > -1 ? "100%" : 1440} mt={path.indexOf("rewards") > -1 ? '0px' : '30px'} >
             <Flex
                 justify='center'
                 direction={'column'}
             >
-                <Box>
+                <Box mb={80}>
                     {children}
                 </Box>
             </Flex>
