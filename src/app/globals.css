@@ -69,3 +69,11 @@ label {
 .mantine-Popover-dropdown {
     background-color: #0c111d;
 }
+
+main {
+    padding-bottom: 0px !important;
+}
+
+.mantine-Container-root{
+    padding: 0px;
+}

@@ -18,7 +18,7 @@ export const FILTER_OPTIONS = [
     },
     {
         name: "Frequency", childrens: [
-
+            
         ]
     }
 ];

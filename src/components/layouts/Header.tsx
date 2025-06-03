@@ -119,6 +119,11 @@ const MyHeader: FC<Props> = ({
                                     Settings
                                 </Menu.Item>
                                 <Menu.Item
+                                    onClick={() => { router.push("/rewards") }}
+                                >
+                                    Rewards
+                                </Menu.Item>
+                                <Menu.Item
                                     onClick={() => { router.push("/create-market") }}
                                 >
                                     Create a market
